@@ -1,7 +1,16 @@
+import { Button } from "@/components/ui/button";
+import {
+  ClerkProvider,
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignUpButton,
+} from "@clerk/nextjs";
 import { ChartColumnBigIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import Link from "next/link";
+import UserDropdown from "./components/user-dropdown";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -21,16 +30,35 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${poppins.variable} antialiased`}>
-        <nav className="bg-primary flex h-20 items-center justify-between p-4 text-white">
-          <Link href="/" className="flex items-center gap-1 text-2xl font-bold">
-            <ChartColumnBigIcon className="text-lime-500" /> NextCash
-          </Link>
-          <div>Auth button</div>
-        </nav>
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={`${poppins.variable} antialiased`}>
+          <nav className="bg-primary flex h-20 items-center justify-between p-4 text-white">
+            <Link
+              href="/"
+              className="flex items-center gap-1 text-2xl font-bold"
+            >
+              <ChartColumnBigIcon className="text-lime-500" /> NextCash
+            </Link>
+            <div>
+              <SignedOut>
+                <div className="flex items-center">
+                  <Button asChild variant="link" className="text-white">
+                    <SignInButton />
+                  </Button>
+                  <Button asChild variant="link" className="text-white">
+                    <SignUpButton />
+                  </Button>
+                </div>
+              </SignedOut>
+              <SignedIn>
+                <UserDropdown />
+              </SignedIn>
+            </div>
+          </nav>
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
