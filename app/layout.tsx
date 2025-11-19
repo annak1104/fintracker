@@ -1,14 +1,12 @@
+import { ChartColumnBigIcon } from "lucide-react";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins } from "next/font/google";
+import Link from "next/link";
 import "./globals.css";
 
-const geistSans = Geist({
+const poppins = Poppins({
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
@@ -24,9 +22,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${poppins.variable} antialiased`}>
+        <nav className="bg-primary flex h-20 items-center justify-between p-4 text-white">
+          <Link href="/" className="flex items-center gap-1 text-2xl font-bold">
+            <ChartColumnBigIcon className="text-lime-500" /> NextCash
+          </Link>
+          <div>Auth button</div>
+        </nav>
         {children}
       </body>
     </html>
