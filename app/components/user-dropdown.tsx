@@ -1,8 +1,15 @@
 "use client";
 
 import { UserButton } from "@clerk/nextjs";
+import { ChartColumnBigIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function UserDropdown() {
+  const router = useRouter();
+  const handleRouteToDashboard = () => {
+    router.push("/dashboard");
+  };
+
   return (
     <UserButton
       showName
@@ -13,6 +20,14 @@ export default function UserDropdown() {
           },
         },
       }}
-    />
+    >
+      <UserButton.MenuItems>
+        <UserButton.Action
+          label="Dashboard"
+          labelIcon={<ChartColumnBigIcon size={16} />}
+          onClick={handleRouteToDashboard}
+        />
+      </UserButton.MenuItems>
+    </UserButton>
   );
 }
