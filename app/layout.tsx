@@ -10,7 +10,7 @@ import { ChartColumnBigIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import Link from "next/link";
-import UserDropdown from "./components/user-dropdown";
+import UserDropdown from "../components/user-dropdown";
 import "./globals.css";
 
 const poppins = Poppins({
