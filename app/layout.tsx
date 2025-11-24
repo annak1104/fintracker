@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Toaster } from "@/components/ui/sonner";
 import {
   ClerkProvider,
   SignedIn,
@@ -57,6 +58,7 @@ export default function RootLayout({
             </div>
           </nav>
           {children}
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>

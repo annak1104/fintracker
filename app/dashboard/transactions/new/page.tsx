@@ -1,4 +1,3 @@
-import TransactionForm from "@/components/transaction-form";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,9 +7,12 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getCatgories } from "@/data/getCategories";
 import Link from "next/link";
+import NewTransactionForm from "./new-transaction-form";
 
-export default function NewTransactionPage() {
+export default async function NewTransactionPage() {
+  const categories = await getCatgories();
   return (
     <div className="mx-auto max-w-screen-xl py-10">
       <Breadcrumb>
@@ -37,7 +39,8 @@ export default function NewTransactionPage() {
           <CardTitle>New Transaction</CardTitle>
         </CardHeader>
         <CardContent>
-          <TransactionForm />
+          <NewTransactionForm categories={categories} />
+          {/* <TransactionForm categories={categories} /> */}
         </CardContent>
       </Card>
     </div>
