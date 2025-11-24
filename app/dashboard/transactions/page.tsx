@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getTransactionsByMonth } from "@/data/getTransactionsByMonth";
 import { format } from "date-fns";
 import Link from "next/link";
 import z from "zod";
@@ -35,6 +36,9 @@ export default async function TransactionsPage({
   const searchParamsValues = await searchParams;
   const { month, year } = searchSchema.parse(searchParamsValues);
   const selectedDate = new Date(year, month - 1, 1);
+  const transactions = await getTransactionsByMonth({ month, year });
+
+  console.log(transactions);
   return (
     <div className="mx-auto max-w-7xl py-10">
       <Breadcrumb>
