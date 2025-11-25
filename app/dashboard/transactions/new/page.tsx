@@ -7,12 +7,12 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getCatgories } from "@/data/getCategories";
+import { getCategories } from "@/data/getCategories";
 import Link from "next/link";
 import NewTransactionForm from "./new-transaction-form";
 
 export default async function NewTransactionPage() {
-  const categories = await getCatgories();
+  const categories = await getCategories();
   return (
     <div className="mx-auto max-w-7xl py-10">
       <Breadcrumb>

@@ -7,8 +7,11 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getCatgories } from "@/data/getCategories";
+import { getCategories } from "@/data/getCategories";
+import getTransaction from "@/data/getTransaction";
 import Link from "next/link";
+import { notFound } from "next/navigation";
+import EditTransactionForm from "./edit-transaction-form";
 
 export default async function EditTransactionPage({
   params,
@@ -19,10 +22,15 @@ export default async function EditTransactionPage({
   const transactionId = Number(paramsValues.transactionId);
 
   if (isNaN(transactionId)) {
-    return <div>Ooops, transaction not found</div>;
+    notFound();
   }
 
-  const categories = await getCatgories();
+  const categories = await getCategories();
+  const transaction = await getTransaction(transactionId);
+
+  if (!transaction) {
+    notFound();
+  }
   return (
     <div className="mx-auto max-w-7xl py-10">
       <Breadcrumb>
@@ -40,7 +48,7 @@ export default async function EditTransactionPage({
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Edit transactions</BreadcrumbPage>
+            <BreadcrumbPage>Edit transaction</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
@@ -49,7 +57,10 @@ export default async function EditTransactionPage({
           <CardTitle>Edit Transaction</CardTitle>
         </CardHeader>
         <CardContent>
-          {/* <NewTransactionForm categories={categories} /> */}
+          <EditTransactionForm
+            transaction={transaction}
+            categories={categories}
+          />
         </CardContent>
       </Card>
     </div>
