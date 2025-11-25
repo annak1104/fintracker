@@ -11,6 +11,9 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Trash2Icon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { deleteTransaction } from "./actions";
 
 type Props = {
   transactionId: number;
@@ -21,6 +24,19 @@ export function DeleteTransactionDialog({
   transactionId,
   transactionDate,
 }: Props) {
+  const router = useRouter();
+  const handleDeleteConfirm = async () => {
+    const result = await deleteTransaction(transactionId);
+
+    if (result?.error) {
+      toast.error(result.message);
+      return;
+    }
+
+    const [year, month] = transactionDate.split("_");
+    toast.success("Transaction deleted");
+    router.push(`/dashboard/transactions?month${month}&year${year}`);
+  };
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -38,7 +54,9 @@ export function DeleteTransactionDialog({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <Button variant="destructive">Delete</Button>
+          <Button onClick={handleDeleteConfirm} variant="destructive">
+            Delete
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
