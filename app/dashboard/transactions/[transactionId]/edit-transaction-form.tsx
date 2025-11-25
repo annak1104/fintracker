@@ -4,9 +4,11 @@ import TransactionForm, {
   transactionFormSchema,
 } from "@/components/transaction-form";
 import { Category } from "@/types/Category";
+import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import z from "zod";
+import { updateTransaction } from "./actions";
 
 type Props = {
   categories: Category[];
@@ -25,8 +27,14 @@ export default function EditTransactionForm({
 }: Props) {
   const router = useRouter();
   const handleSubmit = async (data: z.infer<typeof transactionFormSchema>) => {
-    const result: any = {};
-    if (result.error) {
+    const result = await updateTransaction({
+      id: transaction.id,
+      amount: data.amount,
+      description: data.description,
+      categoryId: data.categoryId,
+      transactionDate: format(data.transactionDate, "yyyy-MM-dd"),
+    });
+    if (result?.error) {
       toast.error(result.message);
       return;
     }
@@ -34,7 +42,6 @@ export default function EditTransactionForm({
     router.push(
       `/dashboard/transactions?month=${data.transactionDate.getMonth() + 1}&year${data.transactionDate.getFullYear()}`,
     );
-    console.log(result.id);
   };
   return (
     <TransactionForm
