@@ -14,7 +14,7 @@ import NewTransactionForm from "./new-transaction-form";
 export default async function NewTransactionPage() {
   const categories = await getCatgories();
   return (
-    <div className="mx-auto max-w-screen-xl py-10">
+    <div className="mx-auto max-w-7xl py-10">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -34,7 +34,7 @@ export default async function NewTransactionPage() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <Card className="mt-4 max-w-screen-md">
+      <Card className="mt-4 max-w-3xl">
         <CardHeader>
           <CardTitle>New Transaction</CardTitle>
         </CardHeader>

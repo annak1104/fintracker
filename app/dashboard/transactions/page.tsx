@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,10 +9,22 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { getTransactionsByMonth } from "@/data/getTransactionsByMonth";
+import { getTransactionYearsRange } from "@/data/getTransactionYearRange";
 import { format } from "date-fns";
+import { Edit2Icon } from "lucide-react";
 import Link from "next/link";
+import numeral from "numeral";
 import z from "zod";
+import Filters from "./filters";
 
 const today = new Date();
 
@@ -37,8 +50,8 @@ export default async function TransactionsPage({
   const { month, year } = searchSchema.parse(searchParamsValues);
   const selectedDate = new Date(year, month - 1, 1);
   const transactions = await getTransactionsByMonth({ month, year });
+  const yearsRange = await getTransactionYearsRange();
 
-  console.log(transactions);
   return (
     <div className="mx-auto max-w-7xl py-10">
       <Breadcrumb>
@@ -58,13 +71,73 @@ export default async function TransactionsPage({
         <CardHeader>
           <CardTitle className="flex justify-between">
             <span>{format(selectedDate, "MMM yyyy")} Transactions</span>
-            <div>dropdown</div>
+            <div>
+              <Filters month={month} year={year} yearsRange={yearsRange} />
+            </div>
           </CardTitle>
         </CardHeader>
         <CardContent>
           <Button asChild>
             <Link href="/dashboard/transactions/new">New transaction</Link>
           </Button>
+          {!transactions?.length && (
+            <p className="text-muted-foreground py-10 text-center text-lg">
+              There are no transactions this month
+            </p>
+          )}
+          {!!transactions?.length && (
+            <Table className="mt-4">
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Description</TableHead>
+                  <TableHead>Type</TableHead>
+                  <TableHead>Category</TableHead>
+                  <TableHead>Amount</TableHead>
+                  <TableHead />
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {transactions.map((transaction) => (
+                  <TableRow key={transaction.id}>
+                    <TableCell>
+                      {format(transaction.transactionDate, "do MMM yyyy")}
+                    </TableCell>
+                    <TableCell>{transaction.description}</TableCell>
+                    <TableCell className="capitalize">
+                      <Badge
+                        className={
+                          transaction.transactionType === "income"
+                            ? "bg-lime-500"
+                            : "bg-orange-500"
+                        }
+                      >
+                        {transaction.transactionType}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{transaction.category}</TableCell>
+                    <TableCell>
+                      ${numeral(transaction.amount).format("0,0[.]00")}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <Button
+                        variant="outline"
+                        asChild
+                        size="icon"
+                        aria-label="edit transaction"
+                      >
+                        <Link
+                          href={`/dashboard/transactions/${transaction.id}`}
+                        >
+                          <Edit2Icon />
+                        </Link>
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
     </div>
