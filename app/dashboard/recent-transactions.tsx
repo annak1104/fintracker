@@ -34,7 +34,7 @@ export default async function RecentTransactions() {
       <CardContent>
         {!transactions?.length && (
           <p className="text-muted-foreground py-10 text-center text-lg">
-            There are no transactions this month
+            You have no transactions yet
           </p>
         )}
         {!!transactions?.length && (
