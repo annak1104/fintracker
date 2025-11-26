@@ -5,7 +5,7 @@ import { type Category } from "@/types/Category";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addDays, format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { Resolver, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "./ui/button";
 import { Calendar } from "./ui/calendar";
@@ -58,7 +58,9 @@ export default function TransactionForm({
   defaultValues,
 }: Props) {
   const form = useForm<z.infer<typeof transactionFormSchema>>({
-    resolver: zodResolver(transactionFormSchema),
+    resolver: zodResolver(transactionFormSchema) as Resolver<
+      z.infer<typeof transactionFormSchema>
+    >,
     defaultValues: {
       amount: 0,
       categoryId: 0,
