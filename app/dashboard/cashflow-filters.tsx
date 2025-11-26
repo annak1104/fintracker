@@ -14,13 +14,15 @@ type Props = {
   yearsRange: number[];
 };
 
-export default function CashflowFilters({ yearsRange, year }: Props) {
+export default function CashflowFilters({ year, yearsRange }: Props) {
   const router = useRouter();
   return (
     <div>
       <Select
         defaultValue={year.toString()}
-        onValueChange={(value) => router.push(`/dashboard?cfyear=${value}`)}
+        onValueChange={(value) => {
+          router.push(`/dashboard?cfyear=${value}`);
+        }}
       >
         <SelectTrigger>
           <SelectValue />
