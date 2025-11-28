@@ -53,7 +53,7 @@ export default async function TransactionsPage({
   const yearsRange = await getTransactionYearsRange();
 
   return (
-    <div className="mx-auto max-w-7xl py-10">
+    <div className="mx-auto max-w-7xl px-1 py-10">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -69,7 +69,7 @@ export default async function TransactionsPage({
       </Breadcrumb>
       <Card className="mt-4">
         <CardHeader>
-          <CardTitle className="flex justify-between">
+          <CardTitle className="flex flex-col justify-between gap-4 sm:flex-row">
             <span>{format(selectedDate, "MMM yyyy")} Transactions</span>
             <div>
               <Filters month={month} year={year} yearsRange={yearsRange} />

@@ -144,6 +144,11 @@ export default function TransactionForm({
               );
             }}
           />
+        </fieldset>
+        <fieldset
+          disabled={form.formState.isSubmitting}
+          className="mt-5 grid grid-cols-1 items-start gap-x-2 gap-y-5 sm:grid-cols-2"
+        >
           <FormField
             control={form.control}
             name="transactionDate"

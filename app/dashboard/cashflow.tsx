@@ -11,14 +11,14 @@ export default async function Cashflow({ year }: { year: number }) {
   ]);
 
   return (
-    <Card className="mb-5">
+    <Card className="mb-5 overflow-hidden">
       <CardHeader>
         <CardTitle className="flex justify-between">
           <span>Cashflow</span>
           <CashflowFilters year={year} yearsRange={yearsRange} />
         </CardTitle>
       </CardHeader>
-      <CardContent className="grid grid-cols-[1fr_250px]">
+      <CardContent className="grid grid-cols-[1fr]">
         <CashflowContent annualCashflow={cashflow} />
       </CardContent>
     </Card>

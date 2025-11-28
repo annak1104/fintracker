@@ -19,7 +19,7 @@ export default async function RecentTransactions() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex justify-between">
+        <CardTitle className="flex-col gap-2 sm:flex sm:flex-row sm:justify-between">
           <span>Recent transactions</span>
           <div className="flex gap-2">
             <Button asChild variant="outline">
