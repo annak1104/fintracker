@@ -1,3 +1,4 @@
+import { ThemeProvider } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
 import UserDropdown from "@/components/user-dropdown";
 import {
@@ -31,33 +32,41 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" suppressHydrationWarning>
         <body className={`${poppins.variable} antialiased`}>
-          <nav className="bg-primary flex h-20 items-center justify-between p-4 text-white">
-            <Link
-              href="/"
-              className="flex items-center gap-1 text-2xl font-bold"
-            >
-              <ChartColumnBigIcon className="text-lime-500" /> NextCash
-            </Link>
-            <div>
-              <SignedOut>
-                <div className="flex items-center">
-                  <Button asChild variant="link" className="text-white">
-                    <SignInButton />
-                  </Button>
-                  <Button asChild variant="link" className="text-white">
-                    <SignUpButton />
-                  </Button>
-                </div>
-              </SignedOut>
-              <SignedIn>
-                <UserDropdown />
-              </SignedIn>
-            </div>
-          </nav>
-          {children}
-          <Toaster />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <nav className="bg-primary flex h-20 items-center justify-between p-4 text-white">
+              <Link
+                href="/"
+                className="flex items-center gap-1 text-2xl font-bold"
+              >
+                <ChartColumnBigIcon className="text-lime-500" /> NextCash
+              </Link>
+              <div>
+                <SignedOut>
+                  <div className="flex items-center">
+                    <Button asChild variant="link" className="text-white">
+                      <SignInButton />
+                    </Button>
+                    <Button asChild variant="link" className="text-white">
+                      <SignUpButton />
+                    </Button>
+                  </div>
+                </SignedOut>
+                <SignedIn>
+                  <UserDropdown />
+                </SignedIn>
+              </div>
+            </nav>
+
+            {children}
+            <Toaster />
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>

@@ -5,10 +5,11 @@ import { type Category } from "@/types/Category";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addDays, format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { Resolver, useForm } from "react-hook-form";
+import { Resolver, useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "./ui/button";
 import { Calendar } from "./ui/calendar";
+
 import {
   Form,
   FormControl,
@@ -71,7 +72,11 @@ export default function TransactionForm({
     },
   });
 
-  const transactionType = form.watch("transactionType");
+  const transactionType = useWatch({
+    control: form.control,
+    name: "transactionType",
+  });
+
   const filteredCategories = categories.filter(
     (category) => category.type === transactionType,
   );

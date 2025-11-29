@@ -1,13 +1,16 @@
 "use client";
 
 import { UserButton } from "@clerk/nextjs";
-import { ChartColumnBigIcon } from "lucide-react";
+import { ChartColumnBigIcon, Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 
 export default function UserDropdown() {
   const router = useRouter();
-  const handleRouteToDashboard = () => {
-    router.push("/dashboard");
+  const { theme, setTheme } = useTheme();
+
+  const handleToggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
   };
 
   return (
@@ -25,7 +28,15 @@ export default function UserDropdown() {
         <UserButton.Action
           label="Dashboard"
           labelIcon={<ChartColumnBigIcon size={16} />}
-          onClick={handleRouteToDashboard}
+          onClick={() => router.push("/dashboard")}
+        />
+      </UserButton.MenuItems>
+
+      <UserButton.MenuItems>
+        <UserButton.Action
+          label="Change theme"
+          labelIcon={theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+          onClick={handleToggleTheme}
         />
       </UserButton.MenuItems>
     </UserButton>
